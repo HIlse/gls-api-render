@@ -22,10 +22,10 @@ app.get('/api/data', async (req, res) => {
                 'X-MTS-SSID': ssid
             }
         }); 
-        
         res.json(dataSimplify(response.data));
+       
     } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch data from external API' });
+        res.status(500).json({ error: "Internal server error" });
     }
 });
 
@@ -35,7 +35,8 @@ app.listen(PORT, () => {
 
 function dataSimplify(resp) {
     if (resp.groupID) {
-        return {
+        
+        let simplifiedRes = {
             OrderInfo: [
                 {
                     name: 'GroupID',
@@ -44,11 +45,93 @@ function dataSimplify(resp) {
                 }, {
                     name: 'Tên quán',
                     value: resp.merchantName
+                }, {
+                    name: 'Tổng',
+                    value: resp.breakdowns.find(breakdown => breakdown.key === "subtotal").value.amountInMinor
+                }, {
+                    name: 'Phí',
+                    value: resp.breakdowns.find(breakdown => breakdown.key === "service_fees").value.amountInMinor
+                }, {
+                    name: 'Giảm giá',
+                    value: (-1)*resp.breakdowns
+                        .filter(breakdown => breakdown.value && typeof breakdown.value.amountInMinor === 'number' && breakdown.value.amountInMinor < 0)
+                        .reduce((sum, breakdown) => sum + breakdown.value.amountInMinor, 0)
+                }, {
+                    name: '#################',
+                    value: '#################'
                 }
             ]
         }
+        resp.memberBills.forEach(e => {
+            let item = {
+                name: nameCheck(e.memberID),
+                value: e.breakdowns.find(breakdown => breakdown.key === "subtotal").value.amountInMinor
+            }
+            simplifiedRes.OrderInfo.push(item);
+        });
+
+
+        return simplifiedRes;
     } else {
-        return resp
+        return resp;
     }
    
+}
+
+function memberPrice(r) {
+    
+}
+
+
+function nameCheck(id) {
+    switch (id) {
+        case 'eM1d13':
+            return `DatQ`;
+            break;
+        case '7676Zw':
+            return 'Hải';
+            break;
+        case '4wr0mj':
+            return 'a Thành';
+            break;
+        case 'rg1dge':
+            return 'a Thor';
+            break;
+        case '9ZKvvL':
+            return 'Sara';
+            break;
+        case 'A7vZy':
+            return 'Dat An';
+            break;
+        case 'OadyZ7A':
+            return 'Thảo nhỏ';
+            break;
+        case '0Yb8Zj':
+            return 'Bi Pham';
+            break;
+        case 'yZ6b1zM':
+            return 'a Xuyên';
+            break;
+        case '5VOQQP':
+            return 'a Luân';
+            break;
+        case '5EYKpY':
+            return 'Duy';
+            break;
+        case 'yZ2X8W':
+            return 'a Nhân';
+            break;
+        case 'K4Q1xJ':
+            return 'c Thảo';
+            break;
+        case 'KrxGbN':
+            return 'Nam';
+            break;
+        case '4EKZkwA':
+            return 'a Thư';
+            break;
+    
+        default:
+            break;
+    }
 }
