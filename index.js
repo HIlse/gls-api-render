@@ -58,7 +58,7 @@ function dataSimplify(resp) {
                         .reduce((sum, breakdown) => sum + breakdown.value.amountInMinor, 0)
                 }, {
                     name: '#################',
-                    value: '#################'
+                    value: '##############################'
                 }
             ]
         }
