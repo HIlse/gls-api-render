@@ -20,8 +20,10 @@ app.get('/api/data', async (req, res) => {
                 'Host': 'food.grab.com',
                 'User-Agent': 'PostmanRuntime/7.42.0',
                 'X-MTS-SSID': ssid
-        }}); // Replace with the actual URL test
-        res.json(response.data);
+            }
+        }); 
+        
+        res.json(dataSimplify(response.data));
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch data from external API' });
     }
@@ -30,3 +32,23 @@ app.get('/api/data', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+function dataSimplify(resp) {
+    if (resp.groupID) {
+        return {
+            OrderInfo: [
+                {
+                    name: 'GroupID',
+                    value: resp.groupID,
+
+                }, {
+                    name: 'Tên quán',
+                    value: resp.merchantName
+                }
+            ]
+        }
+    } else {
+        return resp
+    }
+   
+}
