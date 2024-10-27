@@ -29,6 +29,16 @@ app.get('/api/data', async (req, res) => {
     }
 });
 
+app.get('/api/say-hi', async (req, res) => {
+    try {
+        res.json({
+            message: 'Hi there!'
+        })
+    } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
@@ -77,11 +87,6 @@ function dataSimplify(resp) {
     }
    
 }
-
-function memberPrice(r) {
-    
-}
-
 
 function nameCheck(id) {
     switch (id) {
