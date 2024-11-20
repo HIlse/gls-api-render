@@ -112,7 +112,7 @@ function nameCheck(id) {
             return 'Thảo nhỏ';
             break;
         case '0Yb8Zj':
-            return 'Bi Pham';
+            return 'Bi Phạm';
             break;
         case 'yZ6b1zM':
             return 'a Xuyên';
@@ -135,8 +135,12 @@ function nameCheck(id) {
         case '4EKZkwA':
             return 'a Thư';
             break;
+        case 'rjka1L':
+            return 'Phước';
+            break;
     
         default:
+            return id;
             break;
     }
 }
