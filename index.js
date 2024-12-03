@@ -138,7 +138,9 @@ function nameCheck(id) {
         case 'rjka1L':
             return 'Phước';
             break;
-    
+        case 'EOVbrv':
+            return 'c Vân';
+            break;
         default:
             return id;
             break;
