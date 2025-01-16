@@ -141,6 +141,9 @@ function nameCheck(id) {
         case 'EOVbrv':
             return 'c Vân';
             break;
+        case 'KxW30M':
+            return 'Bảo';
+            break;
         default:
             return id;
             break;
